@@ -1,0 +1,176 @@
+<style>
+	.my-block{
+		margin: 20px 0px 100px 0px;
+	}
+	input{
+		margin: 5px;		
+	}
+	label{
+		margin: 10px 0;
+	}
+	.rasporcka{
+		margin-bottom: 10px;
+	}
+	.btnValute{
+		width: 60px;
+		height: 20px;
+		margin: 0 10px;
+		padding: 0 14px;
+	}
+	.sum{
+		background-color: #f47e26;
+		color: white;
+	}
+</style>
+
+<!-- ................................................................................. -->
+<!-- Авторозация с помощью ВК -->
+<!-- <div class="col-md-12 my-block"> -->
+<!-- Put this script tag to the <head> of your page -->
+<!-- <script type="text/javascript" src="//vk.com/js/api/openapi.js?143"></script> -->
+
+<!-- <script type="text/javascript"> -->
+  <!-- VK.init({apiId: 5963744}); -->
+<!-- </script> -->
+
+<!-- Put this div tag to the place, where Auth block will be -->
+<!-- <div id="vk_auth"></div> -->
+<!-- <script type="text/javascript"> -->
+<!-- VK.Widgets.Auth("vk_auth", {authUrl: '/user/index/auth-vk'}); -->
+<!-- </script> -->
+<!-- ................................................................................. -->
+
+	<?php if(!isset($result)){?>
+		<div class="col-md-4 col-md-offset-4">
+			<?php
+		        $form = $this->form;
+		        $form->setAttribute('action', '/user/auth');
+		        $form->prepare();
+		        echo $this->form()->openTag($form);		        
+		    ?>     
+				<div class="form-group">
+					<label for="inputPassword3" class="col-sm-2 control-label">Логин</label>
+					<div class="col-sm-10">
+						<?php echo $this->formRow($form->get('login')); ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="inputPassword3" class="col-sm-2 control-label">Пароль</label>
+					<div class="col-sm-10">
+						<?php echo $this->formRow($form->get('password')); ?>
+					</div>
+				</div>
+				<div class="form-group">
+					<div class="col-md-8">
+						<div class="col-sm-offset-2 col-sm-10">
+							<div class="checkbox">
+								<label>
+									<?php echo $this->formRow($form->get('checkbox')); ?> Запомнить меня
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<div class="col-sm-offset-2 col-sm-10">
+							<?php echo $this->formRow($form->get('submit')); ?>
+						</div>						
+					</div>										
+				</div>
+				<div class="form-group">
+					<div class="col-md-12 ">							
+						<a class="btn btn-primary btn-lg btn-block" href="registration">Регистрация</a>
+					</div>
+				</div>	
+				<div class="error"><?=(isset($error[0])?$error[0]:"") ?></div>	
+			<?php    
+			    echo $this->form()->closeTag();
+			?>			
+		</div>	
+	<?php }else{	
+			$id = $result->id; 
+			$role = $result->role; 
+			$login = $result->login; 
+			$activeLink = $result->active;							
+		?>
+
+		<div class="col-md-1 col-md-offset-11">	
+			<form method="post" action="index/exit">		
+				<input type="submit" class="btn btn-default" name="exit" value="Выход">
+			</form>	
+		</div>
+
+		<div class="col-md-12 rasporcka">				
+			<p class="text-center lead ">Здравствуйте <?php echo "$login";?></p>
+		</div>
+		
+
+		<?php if($activeLink == 0){ ?>
+			<div class="col-md-12 rasporcka">				
+				<a href="/user/activation-link?id=<?php echo $id;?>" class="btn btn-primary">Нажмите на ссылку чтобы активировать акаунт и после чего авторизируйтесь</a>		
+			</div>
+		<?php }else{ ?>
+			<div class="col-md-6 my-block">
+				<div class="col-md-12 rasporcka">			
+					<a href="/user/edit?id=<?php echo $id;?>" class="btn btn-info">Редактировать данные</a>		
+				</div>
+				<div class="col-md-12 rasporcka">			
+					<a href="/user/history?id=<?php echo $id;?>" class="btn btn-info">Просмотр истории</a>		
+				</div>
+				<?php if($role == 'admin'){?>
+					<div class="col-md-12 rasporcka">				
+						<a href="/access/office-administrator" class="btn btn-danger">Редактировать доступы</a>		
+					</div>
+					<div class="col-md-12 rasporcka">				
+						<a href="/administer/index/user" class="btn btn-danger">Кабинет администратора</a>		
+					</div>				
+				<?php }?>
+				<div class="col-md-12 rasporcka">			
+						<a href="/money/index/costs" class="btn btn-success">Расходы</a>
+						<a href="/money/index/look-costs" class="btn btn-success">Просмотр расходов по категориям</a>
+					</div>				
+					<div class="col-md-12 rasporcka">			
+						<a href="/money/profit/profit" class="btn btn-success">Доходы</a>
+						<a href="/money/profit/look-profit" class="btn btn-success">Просмотр доходов по категориям</a>	
+					</div>
+					<div class="col-md-12 rasporcka">			
+						<a href="/money/index/shopping-list" class="btn btn-success">Список покупок</a>		
+					</div>	
+				</div>
+				<div class="col-md-6 my-block">
+					<div class="col-md-10 sum rasporcka">
+						<div id="text" class="col-md-5 lead rasporcka">Ваш остаток: </div>				
+						<div id="Sum" class="col-md-2 lead rasporcka"><?php echo "$sum";?> </div>				
+						<div id="currency" class="col-md-2 lead rasporcka">UAH</div>
+					</div>
+					<div class="col-md-1 rasporcka">				
+						<div class="col-md-12  btnValute btn btn-info" onclick='currencyRub("RUB",<?php echo "$sum";?>)'>RUB</div>
+						<div class="col-md-12  btnValute btn btn-info" onclick='currencyGrn("UAH",<?php echo "$sum";?>)'>UAH</div>	
+						<div class="col-md-12  btnValute btn btn-info" onclick='currencyDol("USD",<?php echo "$sum";?>)'>USD</div>	
+					</div>
+				</div>
+		<?php }?>
+	<?php }?>
+</div>
+<script>
+    function currencyRub(val, sum){
+    	$("#currency").text(val);
+    	sum = sum * 0.48;
+    	sum = sum.toFixed(1);
+    	$("#Sum").text(sum);
+    };
+    function currencyGrn(val, sum){
+    	$("#currency").text(val);
+    	sum = sum.toFixed(1);
+    	$("#Sum").text(sum);
+    };
+    function currencyDol(val, sum){
+    	$("#currency").text(val);
+    	sum = sum / 27;
+    	sum = sum.toFixed(1);
+    	$("#Sum").text(sum);
+    };
+</script>
+<script>
+	var val = $(span).text();
+	alert(val);
+</script>

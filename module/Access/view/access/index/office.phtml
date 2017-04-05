@@ -1,0 +1,25 @@
+
+<div class="table-responsive">
+	<table class="table table-striped">
+		<tr >
+	        <td>№</td>        
+	        <td>Роль</td>
+	        <td>Ресурс</td>
+	        <td>Доступ</td>  
+	        <td></td>
+	        <td></td>        
+	    </tr>    
+	   
+			
+	    <?php $i = 1; foreach ($access as $key => $value){?>
+	    <tr>
+	        <td> <?php echo $i++; ?></td>
+	        <td> <?php echo $role_name; ?></td>
+	        <td> <?php echo $name_resource[(int)$value->id_resource]; ?></td>
+	        <td> <?php if($value->access==1){echo "Открыт";}else{echo "Закрыт";} ?></td> 
+	        <td> <a  class="btn btn-success" href="open?id_role=<?php echo $value->id_role?>&id_resource=<?php echo $value->id_resource?>">Открыть</a></td>
+	        <td><a class="btn btn-danger" href="close?id_role=<?php echo $value->id_role?>&id_resource=<?php echo $value->id_resource?>">Закрыть</a></td>
+	    </tr>    
+	     <?php } ?> 
+	</table> 
+</div>

@@ -1,0 +1,33 @@
+<div class="table-responsive">
+    <table class="table table-striped">
+        <tr >
+            <td>№</td>        
+            <td>Email</td>
+            <td>login</td>
+            <td>password</td>  
+            <td>role</td>
+            <td>active</td>  
+            <td>logged</td>       
+            <td></td> 
+            <td></td>  
+            <td></td>  
+        </tr> 
+        <?php $i = 1; foreach ($users as $key => $value){ ?>
+            <tr>
+                <td> <?php echo $i++; ?></td>
+                <td> <?php echo $value->email; ?></td>
+                <td> <?php echo $value->login; ?></td>
+                <td> <?php echo $value->password; ?></td> 
+                <td> <?php echo $value->role; ?></td> 
+                <td> <?php if($value->active==1){echo "Активен";}else{echo "Неактивен";} ?></td>
+                <td> <?php if($value->logged==1){echo "Онлаин";}else{echo "Не в сети";} ?></td>                
+                
+                <td> <a  class="btn btn-primary" href="/administer/index/editUser?id=<?php echo $value->id ?>">Редактировать</a></td>
+                <td> <a  class="btn btn-danger" href="/administer/index/delete?id=<?php echo $value->id ?>">Удалить</a></td>
+                <td> <a  class="btn btn-warning" href="/user/index/logout?id=<?php echo $value->id ?>">Разлогинить</a></td>
+            </tr>    
+        <?php } ?> 
+    </table> 
+    <a class="btn btn-success" href="/administer/index/add-user">Добавить пользователя</a>
+    <a  class="btn btn-info" href="/user/auth">Назад</a>
+</div>

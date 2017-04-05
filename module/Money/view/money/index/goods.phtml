@@ -1,0 +1,49 @@
+<style>
+    .myClass{
+        /*border: 1px solid black;*/
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+</style>
+<?php
+    $form = $this->form;
+    $form->setAttribute('action', '/money/index/goods');
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    echo $this->formRow($form->get('id_list'));
+?>
+<div class="row myClass">
+    <div class="col-md-4 col-md-offset-4 myClass"><h1>Списки товаров</h1></div>
+</div>
+<div class="row myClass">
+    <div class="col-md-4 myClass"><?php echo $this->formRow($form->get('name_goods')); ?></div>
+    <div class="col-md-3 col-md-offset-1 myClass"><?php echo $this->formRow($form->get('sum')); ?></div>
+    <div class="col-md-1 col-md-offset-2 myClass"><?php echo $this->formRow($form->get('submit')); ?></div>
+</div>
+<?php echo $this->form()->closeTag(); ?>
+<div class="row myClass table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <td>№</td>
+            <td>Название товара</td>
+            <td>Цена</td>
+            <td></td>            
+            <td></td>
+        </tr>
+        <?php $i = 0; foreach ($goods as $key => $value) { ;?>
+        <tr>
+            <td class="col-md-1"><?php echo $i+=1; ?></td>
+            <td class="col-md-3"><?php echo $value->name_goods; ?></td>
+            <td class="col-md-1"><?php echo $value->sum; ?></td>            
+            <td class="col-md-1"> <a  class="btn btn-warning" href="/money/index/edit-goods?id=<?php echo $value->id ?>&id_list=<?php echo $id_list ?>">Редактировать</a></td>
+            <td class="col-md-1"> <a  class="btn btn-danger" href="/money/index/delete-goods?id=<?php echo $value->id ?>&id_list=<?php echo $id_list ?>">Удалить</a></td>  
+        </tr>
+        <?php } ?>
+    </table>
+</div>
+<div class="row myClass">
+    <div class="col-md-1 myClass"><a  class="btn btn-info" href="/money/index/shopping-list">Назад</a></div>
+</div>
+<script>
+    $('input[type="hidden"]').val(<?php echo "$id_list";?>)
+</script>

@@ -1,0 +1,63 @@
+<style>
+    .my-block{
+        margin: 20px 0px 100px 0px;
+    }
+    input{
+        margin: 5px;        
+    }
+    label{
+        margin: 10px 0;
+    }
+</style>
+<div class="col-md-12 my-block">    
+        <div class="col-md-5 col-md-offset-4">
+            <?php
+                $form = $this->form;
+                $form->setAttribute('action', '/user/registration');
+                $form->prepare();
+                echo $this->form()->openTag($form);
+                echo $this->formRow($form->get('active'));
+                echo $this->formRow($form->get('logged'));
+            ?>     
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-3 control-label">Логин</label>
+                    <div class="col-sm-9">
+                        <?php echo $this->formRow($form->get('login')); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-3 control-label">Email</label>
+                    <div class="col-sm-9">
+                        <?php echo $this->formRow($form->get('email')); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-3 control-label">Пароль</label>
+                    <div class="col-sm-9">
+                        <?php echo $this->formRow($form->get('password')); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputPassword3" class="col-sm-3 control-label">Повторный пароль</label>
+                    <div class="col-sm-9">
+                        <?php echo $this->formRow($form->get('rep_password')); ?>
+                    </div>
+                </div>
+                <div class="form-group"> 
+                        <div class="col-sm-12">                            
+                            <?php echo $this->formRow($form->get('submit')); ?>
+                        </div>  
+                        <div class="col-sm-12">  
+                            <a href="/user/auth" class="btn btn-primary">Назад</a>
+                        </div> 
+                </div>           
+                 <?php    
+                    echo $this->form()->closeTag();
+                ?>      
+                <div class="form-group">   
+                    <div class="col-md-12"><?=(isset($error[0])?$error[0]:"") ?></div> 
+                </div> 
+        </div>    
+</div>
+
+            

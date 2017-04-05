@@ -1,0 +1,28 @@
+<style>
+    .myClass{
+        /*border: 1px solid black;*/
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+</style>
+<?php
+    $form = $this->form;
+    $form->setAttribute('action', '/money/index/edit-goods');
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    echo $this->formRow($form->get('id'));
+    echo $this->formRow($form->get('id_list'));
+?>
+<div class="row myClass">
+    <div class="col-md-4 col-md-offset-4 myClass"><h1>Редактор товаров</h1></div>
+</div>
+<div class="row myClass">
+    <div class="col-md-4 myClass"><?php echo $this->formRow($form->get('name_goods')); ?></div>
+    <div class="col-md-3 col-md-offset-1 myClass"><?php echo $this->formRow($form->get('sum')); ?></div>
+    <div class="col-md-1 col-md-offset-2 myClass"><?php echo $this->formRow($form->get('submit')); ?></div>
+</div>
+<?php echo $this->form()->closeTag(); ?>
+<div class="row myClass">
+    <div class="col-md-1 myClass"><a class="btn btn-info" href="/money/index/goods?id=<?php echo $id_list; ?>">Назад</a></div>
+</div>
+

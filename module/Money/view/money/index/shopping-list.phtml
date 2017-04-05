@@ -1,0 +1,57 @@
+<style>
+    .myClass{
+        /*border: 1px solid black;*/
+        margin-top: 15px;
+        margin-bottom: 15px;
+    }
+</style>
+<?php
+    $form = $this->form;
+    $form->setAttribute('action', '/money/index/shopping-list');
+    $form->prepare();
+    echo $this->form()->openTag($form);
+?>
+<div class="row myClass">
+    <div class="col-md-4 col-md-offset-4 myClass"><h1>Списки покупок</h1></div>
+</div>
+<div class="row myClass">
+    <div class="col-md-4 col-md-offset-2 myClass"><?php echo $this->formRow($form->get('name_list')); ?></div>
+    <div class="col-md-3 col-md-offset-3 myClass"><?php echo $this->formRow($form->get('submit')); ?></div>
+</div>
+<?php echo $this->form()->closeTag(); ?>
+<div class="row myClass table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <td>№</td>
+            <td>Имя списка</td>
+            <td>Сумма</td>
+            <td>Дата</td>            
+            <td>Статус</td>
+            <td></td>            
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <?php $i = 0; foreach ($shoppingList as $key => $value) { ?>
+        <tr>
+            <td class="col-md-1"><?php echo $i+=1; ?></td>
+            <td class="col-md-2"><?php echo $value->name_list; ?></td>
+            <td class="col-md-1"><?php echo $value->sum; ?></td> 
+            <td class="col-md-1"><?php echo $value->date; ?></td>
+            <td class="col-md-1"><?php echo $value->status; ?></td> 
+            <?php if ($value->status == 0){?>
+            <td class="col-md-1"> <a  class="btn btn-warning" href="/money/index/bay-shopping-list?id=<?php echo $value->id ?>">Куплено</a></td>  
+            <?php }else{ ?>   
+             <td class="col-md-1"></td>
+            <?php }?>        
+            <td class="col-md-1"> <a  class="btn btn-primary" href="/money/index/goods?id=<?php echo $value->id ?>">Просмотреть</a></td>            
+            <td class="col-md-1"> <a  class="btn btn-warning" href="/money/index/edit-shopping-list?id=<?php echo $value->id ?>">Редактировать</a></td>
+            <td class="col-md-1"> <a  class="btn btn-danger" href="/money/index/delete-shopping-list?id=<?php echo $value->id ?>">Удалить</a></td>  
+        </tr>
+        <?php } ?>
+    </table>
+</div>
+<div class="row myClass">
+    <div class="col-md-1 myClass"><a  class="btn btn-info" href="/user/auth">Назад</a></div>
+</div>
+

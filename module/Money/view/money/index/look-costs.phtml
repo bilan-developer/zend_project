@@ -1,0 +1,89 @@
+<style>
+    .myClass{
+        /*border: 1px solid black;*/
+        margin-top: 10px;
+    }
+    .btnCategory{
+        margin-left: 15px;
+        margin-top: 10px;
+
+    }
+</style>
+<?php
+    $i = 0;
+    $sumCosts = 0;
+    $form = $this->form;
+    $form->setAttribute('action', '/money/index/look-costs');
+    $form->prepare();
+    echo $this->form()->openTag($form);
+    echo $this->formRow($form->get('id_category'));
+?>
+<div class="row myClass">
+    <div class="col-md-12  myClass"><h1 class="text-center">Просмотр расходов по категориям</h1></div>
+</div>
+<div class="row myClass">
+    <div class="col-md-12  myClass"><h3 class="text-center">Выберите по какому пункту хотите просмотреть расходы</h3></div>
+</div>
+<div class="hidden">
+    <?php echo $this->formRow($form->get('submit')); ?>    
+</div>
+<?php echo $this->form()->closeTag(); ?>
+ 
+<div class="row myClass">
+    <?php foreach ($category as $key => $value) { 
+        $arrCategory[$value->id] = $value->name_category;  
+        if($value->name_category != "Список покупок"){ ?>
+        <button class="btnCategory col-md-1 btn btn-primary" onclick="return EntryCategory(<?php echo $value->id;?>);"><?php echo $value->name_category; ?></button>
+    <?php }else{$list = $value->name_category;?>
+        <button class="btnCategory col-md-2 btn btn-primary" onclick="return EntryCategory(<?php echo 0;?>);"><?php echo $value->name_category; ?></button>
+
+    <?php }} ?>
+</div>
+<div class="row myClass table-responsive">
+    <table class="table table-striped">
+        <tr>
+            <td>№</td>
+            <td>Дата</td>
+            <td>Категория</td>
+            <td>Сумма</td>
+        </tr>
+        <?php if(isset($costsUser)){ ?>
+            <?php foreach ($costsUser as $key => $value) { ;?>
+            <tr>
+                <td class="col-md-1"><?php echo $i+=1; ?></td>
+                <td class="col-md-1"><?php echo $value->date; ?></td>            
+                <td class="col-md-1"><?php echo $arrCategory["$value->id_category"]; ?></td>            
+                <td class="col-md-1"><?php echo $value->sum; $sumCosts+=$value->sum; ?></td> 
+            </tr>
+            <?php } ?>
+        <?php } ?>
+        <?php if(isset($shoppingList)){ ?>
+            <?php foreach ($shoppingList as $key => $value) { 
+                 if($value->status == 1){?>
+            <tr>
+                <td class="col-md-1"><?php echo $i+=1; ?></td>
+                <td class="col-md-1"><?php echo $value->date;?></td>          
+                <td class="col-md-2"><?php echo $list." (".$value->name_list.")"; ?></td>            
+                <td class="col-md-1"><?php echo $value->sum; $sumCosts+=$value->sum; ?></td>  
+            </tr>
+            <?php }} ?>
+        <?php } ?>
+        <tr class="info">
+            <td class="col-md-1"><strong>Всего</strong></td>
+            <td class="col-md-1"></td>            
+            <td class="col-md-2"></td>            
+            <td class="col-md-1"><strong><?php echo $sumCosts; ?></strong></td>               
+        </tr>
+    </table>
+</div>
+<div class="row myClass">
+    <div class="col-md-1 myClass"><a  class="btn btn-info" href="/user/auth">Назад</a></div>
+</div>
+
+
+<script>  
+  function EntryCategory(id) {
+    $('input[type="hidden"]').val(id)
+    $("#submitAdd").click();    
+}
+</script>
